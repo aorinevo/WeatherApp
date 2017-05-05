@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Chart from '../components/chart';
+import GoogleMap from '../components/google_map';
 
 
 class WeatherList extends Component {
@@ -11,6 +12,8 @@ class WeatherList extends Component {
         pressure = [], 
         humidity = [];
     
+    const {lon, lat} = cityData.city.coord;
+    
     cityData.list.forEach( item => {
       temperature.push(item.main.temp);
       pressure.push(item.main.pressure);
@@ -19,7 +22,10 @@ class WeatherList extends Component {
     
     return (
       <tr key={cityData.city.id}>
-        <td>{ cityData.city.name }</td>
+        <td>
+          <span>{ cityData.city.name }</span>
+          <GoogleMap lon={lon} lat={lat} />
+        </td>
         <td><Chart data={temperature} color="red" units="K"/></td>
         <td><Chart data={pressure} color="green" units="hPa"/></td>
         <td><Chart data={humidity} color="yellow" units="%"/></td>
